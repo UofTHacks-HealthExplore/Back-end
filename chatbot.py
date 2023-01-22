@@ -174,7 +174,7 @@ def model_gen_personalized(chat):
 
     formatted = format_dialogue(chat)
 
-    query = f"Based on the previous chat and the new information (user is studying at waterloo, undergrad, not living on residence, long commute, hard to get work done), link one mental health resource for the user:"
+    query = f"Based on the previous chat and the new information {personalized}, link one mental health resource for the user:"
 
     response = openai.Completion.create(
         model="text-davinci-003",
@@ -199,10 +199,11 @@ def home():
 
 @app.route("/reset")
 def reset():
+    global chat, choices, personalized
     chat = [("AI", "How are you feeling?")]
     choices = [None]*5
     personalized = ""
-    return render_template("home.html")
+    return "all reset"
 
 
 @app.route('/test')
@@ -215,7 +216,7 @@ def send_personalized():
     global personalized
     res = request.args.get("q")
     personalized = res
-    return res
+    return f"{res} sent"
 
 
 @app.route("/gen_personalized")
@@ -249,7 +250,7 @@ def last_question():
 @app.route("/gen_responses")
 def gen_responses():
     model_gen_user_responses(chat)
-    return "generated"
+    return "messages generated"
 
 
 @app.route("/responses/all")
@@ -266,7 +267,7 @@ def select(sel):
 def write(sel):
     write_user_select_response(sel)
     model_gen_ai_response(chat)
-    return "sent!"
+    return "response sent"
 
 
 if __name__ == "__main__":
