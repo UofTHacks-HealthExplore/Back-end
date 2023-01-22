@@ -16,6 +16,21 @@ create a .env file in the same level as `chatbot.py` with the contents
 OPENAI_API_KEY = "<key in quotes>"
 ```
 
-
-
 This repository contains the files to the two openai chat bots we are using for our simulation
+
+### How to use the backend
+Instructions found in `home.html` when booting up the app.
+
+### Setting up on [pythonanywhere.com](https://www.pythonanywhere.com/)
+This is the best alternative we could find to Heroku thats bot lightweight and easy to set up.
+
+Setup notes:
+```
+- .env in /home/<user>
+- templates folder in /home/<user>/mysite
+- contents of chatbot.py in /home/kevinzwang5129/mysite/flask_app.py
+- virtualenv in /home/<user>/.virtualenvs/hackuoft
+```
+Important things to note:
+- Python version and virtualenv versions are the same
+- Information about error logs (and basically everything else) may be found on the "web" tab
