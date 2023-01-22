@@ -12,7 +12,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 chat = [("AI", "How are you feeling?")]
 choices = [None]*5
-
+personalized = ""
 
 
 def format_dialogue(dialogue):
@@ -119,7 +119,7 @@ def model_gen_tips(chat):
 
     formatted = format_dialogue(chat)
 
-    query = "Based on the previous chat, provide 5 brief mental health tips for the user"
+    query = "Based on the previous chat, provide a mental health tip for the user"
 
     response = openai.Completion.create(
         model="text-davinci-003",
@@ -133,37 +133,61 @@ def model_gen_tips(chat):
 
     # Assuming in the format of 1. 2. 3. 4. 5.
 
-    tmp_choices = response["choices"][0]["text"]  # Get the actual text as raw string
-    # return repr(tmp_choices)
-    choices_list = tmp_choices.strip().split("\n")  # List of 5 choices
-
-    for i, val in enumerate(choices_list):
-        # Removing the "1. " prefix
-        # Stripping incase of whitespace characters
-        choices_list[i] = val[3:].strip()
-
-    return choice(choices_list)
+    tmp_choices = response["choices"][0]["text"].strip()  # Get
+    return tmp_choices
 
 
-def gen_articles(chat):
+def model_gen_articles(chat):
     """
     generates a random article, video, therapy group
     """
-    ...
+
+    """
+    generates a random tip
+    """
+
+    formatted = format_dialogue(chat)
+    tys = ["article", "video", "therapy group", "psychology group"]
+
+    query = f"Based on the previous chat, provide a link to a {choice(tys)} related to mental health for the user:"
+
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=f"{formatted}\n{query}",
+        temperature=0.9,
+        max_tokens=150,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0.6
+    )
+
+    # Assuming in the format of 1. 2. 3. 4. 5.
+
+    tmp_choices = response["choices"][0]["text"].strip()  # Get the actual text as raw string
+    return tmp_choices
+
 
 def gen_personalized(chat):
     """
-    generates a random personalized resource
+    generates a random personalized resource when entering phase 3 (need a bit more location information)
     """
     ...
+
+
+@app.route("/gen_articles")
+def gen_articles():
+    return model_gen_articles(chat)
+
 
 @app.route("/gen_tips")
 def gen_tips():
     return model_gen_tips(chat)
 
+
 @app.route("/chatlog")
 def chatlog():
     return format_dialogue(chat)
+
 
 @app.route("/last_question")
 def last_question():
@@ -172,26 +196,28 @@ def last_question():
     """
     return chat[-1][1]
 
+
 @app.route("/gen_responses")
 def gen_responses():
     model_gen_user_responses(chat)
     return "generated"
 
+
 @app.route("/responses/all")
 def responses():
     return choices
 
+
 @app.route("/responses/<int:sel>")
 def select(sel):
     return choices[sel-1]
+
 
 @app.route("/responses/<int:sel>/send")
 def write(sel):
     write_user_select_response(sel)
     model_gen_ai_response(chat)
     return "sent!"
-
-
 
 
 if __name__ == "__main__":
