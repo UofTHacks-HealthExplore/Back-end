@@ -1,7 +1,7 @@
 import os
 import openai
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, render_template, redirect, url_for
 from random import choice
 
 
@@ -191,12 +191,31 @@ def model_gen_personalized(chat):
     tmp_choices = response["choices"][0]["text"].strip()  # Get the actual text as raw string
     return tmp_choices
 
+
+@app.route('/')
+def home():
+    return render_template("home.html")
+
+
+@app.route("/reset")
+def reset():
+    chat = [("AI", "How are you feeling?")]
+    choices = [None]*5
+    personalized = ""
+    return render_template("home.html")
+
+
+@app.route('/test')
+def test():
+    return render_template("redirect.html")
+
+
 @app.route("/send_personalized")
 def send_personalized():
     global personalized
     res = request.args.get("q")
     personalized = res
-    return "done"
+    return res
 
 
 @app.route("/gen_personalized")

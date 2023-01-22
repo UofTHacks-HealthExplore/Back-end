@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>home</title>
+</head>
+<body>
+  <h2>This is the home page. Below contains explanation of various redirects</h2>
+
+  <h3>Testing redirects</h3>
+  <p>
+    <a href="/test">/test</a>
+  </p>
+
+  <h3>Questions</h3>
+  <p>
+    <a href="/chatlog">/chatlog</a> - returns a page containing full chat history
+  </p>
+  <p>
+    <a href="/last_question">/last_question</a> - returns the last question asked by the AI
+  </p>
+
+  <h3>Responses</h3>
+  <p>
+    <a href="/gen_responses">/gen_responses</a> - generates 5 possible responses. Run this command before any other response command
+  </p>
+  <p>
+    <a href="/responses/all">/responses/all</a> - After responses are generated, this command allows for all responses to be seen. More information on sending responses available on this page.
+  </p>
+
+  <h3>NPCs</h3>
+  <p>
+    <a href="/send_personalized?q=&lt;qquery&gt;">/send_personalized?q=&lt;query&gt;</a> - when entering stage 3, this is the answer thats inserted into the backend "database" if the user is comfortable with revealing more personal details.
+  </p>
+  <p>
+    <a href="/gen_tips">/gen_tips</a> - when entering stage 1, running this command generates a random mental health tip, passing in the chat stored in the "database" in the process. <em>TRY NOT TO SPAM</em>
+  </p>
+  <p>
+    <a href="/gen_articles">/gen_articles</a> - when entering stage 2, running this command generates a random mental health article, video, other resource, passing in the chat stored in the "database" in the process. <em>TRY NOT TO SPAM</em>
+  </p>
+  <p>
+    <a href="/gen_personalized">/gen_personalized</a> - when entering stage 3, running this command generates a random mental health resource thats more detailed given what information the user provided upon entering stage 3. Passes in the "database" stored in the process. <em>TRY NOT TO SPAM</em>
+  </p>
+
+  <h3>Other</h3>
+  <p>
+    <a href="/reset">/reset</a> - Resets all data
+  </p>
+</body>
+</html>
+
