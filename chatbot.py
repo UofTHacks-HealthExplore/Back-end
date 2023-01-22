@@ -1,7 +1,7 @@
 import os
 import openai
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, request
 from random import choice
 
 
@@ -167,11 +167,41 @@ def model_gen_articles(chat):
     return tmp_choices
 
 
-def gen_personalized(chat):
+def model_gen_personalized(chat):
     """
     generates a random personalized resource when entering phase 3 (need a bit more location information)
     """
-    ...
+
+    formatted = format_dialogue(chat)
+
+    query = f"Based on the previous chat and the new information (user is studying at waterloo, undergrad, not living on residence, long commute, hard to get work done), link one mental health resource for the user:"
+
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=f"{formatted}\n{query}",
+        temperature=0.9,
+        max_tokens=100,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0.6
+    )
+
+    # Assuming in the format of 1. 2. 3. 4. 5.
+
+    tmp_choices = response["choices"][0]["text"].strip()  # Get the actual text as raw string
+    return tmp_choices
+
+@app.route("/send_personalized")
+def send_personalized():
+    global personalized
+    res = request.args.get("q")
+    personalized = res
+    return "done"
+
+
+@app.route("/gen_personalized")
+def gen_personalized():
+    return model_gen_personalized(chat)
 
 
 @app.route("/gen_articles")
