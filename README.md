@@ -3,10 +3,11 @@
 using python3.9 (although other versions should be fine)
 
 ```
-python -m venv venv
-pip install -r requirements.txt
+python -m venv venv  # install the virtual environment
+venv\scripts\activate  # activate the virtual environment
+pip install -r requirements.txt  # install requirements.txt inside of the virtual environment
 .env file includes API key for openai
-python chatbot.py
+python chatbot.py  # run the program
 ```
 
 create an openai account -> api key is free
